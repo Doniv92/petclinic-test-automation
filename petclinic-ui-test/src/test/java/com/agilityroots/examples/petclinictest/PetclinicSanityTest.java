@@ -29,8 +29,14 @@ public class PetclinicSanityTest
 	private PhantomJSDriver driver;
 	@Before
 	public void setUp() throws Exception {
-	    File file = new File(Constants.PJS_PATH);				
-        System.setProperty("phantomjs.binary.path", file.getAbsolutePath());
+	    
+	    if (System.getProperty("os.name").toLowerCase().contains("linux")) {
+		    File file = new File(Constants.PJS_PATH_LNX);
+	        System.setProperty("phantomjs.binary.path", file.getAbsolutePath());	    		    	
+	    } else if (System.getProperty("os.name").toLowerCase().contains("win")) {
+		    File file = new File(Constants.PJS_PATH_WIN);
+	        System.setProperty("phantomjs.binary.path", file.getAbsolutePath());	    	
+	    }
 		DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
 	    driver = new PhantomJSDriver(capabilities);
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
